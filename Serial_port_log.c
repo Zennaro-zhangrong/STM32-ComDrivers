@@ -15,11 +15,26 @@ static unsigned char UartTransmit_Buffer[BUFFER_LENGTH] = {0};
 /*
 *该日志实现方法为：
 *   1.将要打印的数据放在环形缓冲区，
-*   2.主循环中使用DMA搬运缓冲区的数据给目标串口
+*   2.主循环中使用uart阻塞式发送
 */
 
-RingBuffer * Serial_log;
-RingBuffer_Init(Serial_log, UartTransmit_Buffer, BUFFER_LENGTH);
+RingBuffer Serial_log;//实例化环形缓冲区
+
+
+
+
+
+
+
+/*
+ * @功能：初始化日志打印。
+ * @参数：无
+ * @返回：无
+ */
+void Log_Init(void){
+	RingBuffer_Init(&Serial_log, UartTransmit_Buffer, BUFFER_LENGTH);
+}
+
 
 /**
  * @brief  串口格式化发送函数（支持printf格式）
