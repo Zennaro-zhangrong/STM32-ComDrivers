@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
+#include "stm32f1xx_hal.h"
 
 extern UART_HandleTypeDef SERIAL_PORT_NUMBER;
 static unsigned char UartTransmit_Buffer[BUFFER_LENGTH] = {0};
@@ -65,11 +66,14 @@ void log_printf(const char *fmt, ...)
  *@功能：进行一次缓冲区数据打印，缓冲区清空则退出函数，务必放在主循环中，执行间隔
  *过久导致缓冲区频繁溢出可以在 Serial_port_log.h 中适量增加缓冲区大小。
  *@参数：无。
- *@返回：无。
+ *@返回：执行时长。
  */
-void log_send_loop(void){
+unsigned short log_send_loop(void){
+	unsigned int time_start = HAL_GetTick();
     unsigned char data = 0;
     while(RingBuffer_ReadByte(Serial_log, &data) == 1){
-        //DMA发送库函数
+        HAL_UART_Transmit(&SERIAL_PORT_NUMBER, &data, 1, 100);//发送函数
     }
+	unsigned int time_now = HAL_GetTick();
+	return (unsigned short)(time_now - time_start);
 }
