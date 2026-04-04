@@ -16,7 +16,7 @@ extern "C" {
 
 void Log_Init(void);
 void log_printf(const char *fmt, ...);
-void log_send_loop(void);
+unsigned short log_send_loop(void);
 
 
 #ifdef __cplusplus
