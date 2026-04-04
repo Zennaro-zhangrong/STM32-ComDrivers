@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
-#include "stm32f1xx_hal.h"
+#include "stm32f1xx_hal.h"//替换为HAL_GetTick()函数的声明头文件
 
 extern UART_HandleTypeDef SERIAL_PORT_NUMBER;
 static unsigned char UartTransmit_Buffer[BUFFER_LENGTH] = {0};
