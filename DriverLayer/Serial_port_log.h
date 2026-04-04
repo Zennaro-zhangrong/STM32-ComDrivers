@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 #include "main.h"
-#include "RingBuffer.h"
+#include "../Middleware/RingBuffer.h"
 
 //这里把设置为打印日志的串口设置正确
 #define SERIAL_PORT_NUMBER huart2
