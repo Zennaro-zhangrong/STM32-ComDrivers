@@ -2,7 +2,6 @@
  * PWM.c
  *
  *  Created on: Mar 27, 2026
- *      Author: 吴梦佳
  */
 #include "Hardware.h"
 extern TIM_HandleTypeDef htim4;
