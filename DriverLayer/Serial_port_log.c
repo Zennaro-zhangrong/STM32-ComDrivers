@@ -60,9 +60,16 @@ void log_printf(const char *fmt, ...)
     }
 }
 
+
+/*
+ *@功能：进行一次缓冲区数据打印，缓冲区清空则退出函数，务必放在主循环中，执行间隔
+ *过久导致缓冲区频繁溢出可以在 Serial_port_log.h 中适量增加缓冲区大小。
+ *@参数：无。
+ *@返回：无。
+ */
 void log_send_loop(void){
     unsigned char data = 0;
-    if(RingBuffer_ReadByte(Serial_log, &data) == 1){
+    while(RingBuffer_ReadByte(Serial_log, &data) == 1){
         //DMA发送库函数
     }
 }
