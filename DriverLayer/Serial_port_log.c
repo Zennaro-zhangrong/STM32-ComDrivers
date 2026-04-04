@@ -55,9 +55,9 @@ void log_printf(const char *fmt, ...)
     va_end(args);
 
     //写入环形缓冲区
-    unsign char loop_num = strlen(buf);
+    unsigned char loop_num = strlen(buf);
     for(int i = 0; i < loop_num; i++){
-       RingBuffer_WriteByte(Serial_log, (unsigned char)buf[i]);
+       RingBuffer_WriteByte(&Serial_log, (unsigned char)buf[i]);
     }
 }
 
@@ -71,8 +71,8 @@ void log_printf(const char *fmt, ...)
 unsigned short log_send_loop(void){
 	unsigned int time_start = HAL_GetTick();
     unsigned char data = 0;
-    while(RingBuffer_ReadByte(Serial_log, &data) == 1){
-        HAL_UART_Transmit(&SERIAL_PORT_NUMBER, &data, 1, 100);//发送函数
+    while(RingBuffer_ReadByte(&Serial_log, &data) == 1){
+        HAL_UART_Transmit(&SERIAL_PORT_NUMBER, &data, 1, 10);//发送函数
     }
 	unsigned int time_now = HAL_GetTick();
 	return (unsigned short)(time_now - time_start);
