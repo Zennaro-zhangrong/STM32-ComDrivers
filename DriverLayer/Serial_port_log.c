@@ -63,10 +63,10 @@ void log_printf(const char *fmt, ...)
 
 
 /*
- *@功能：进行一次缓冲区数据打印，缓冲区清空则退出函数，务必放在主循环中，执行间隔
- *过久导致缓冲区频繁溢出可以在 Serial_port_log.h 中适量增加缓冲区大小。
- *@参数：无。
- *@返回：执行时长。
+ * @功能：进行一次缓冲区数据打印，缓冲区清空则退出函数，一般放在主循环中，执行间隔
+ * 过久导致缓冲区频繁溢出可以在 Serial_port_log.h 中适量增加缓冲区大小。
+ * @参数：无。
+ * @返回：执行时长。
  */
 unsigned short log_send_loop(void){
 	unsigned int time_start = HAL_GetTick();
