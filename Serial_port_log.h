@@ -14,6 +14,7 @@ extern "C" {
 //这里是环形缓冲区的长度（Byte）
 #define BUFFER_LENGTH 512
 
+void Log_Init(void);
 void log_printf(const char *fmt, ...);
 void log_send_loop(void);
 
