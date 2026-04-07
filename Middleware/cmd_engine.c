@@ -48,7 +48,7 @@ cmd_table *CMD_Table_Bind(const cmd_item *item_buff, unsigned char item_count)
 unsigned char CMD_engine_RUN(cmd_table *table, unsigned char cmd_code,
                       const unsigned char data_A, unsigned char data_B)
 {
-    if(table == NULL || table->item_list == NULL) {
+    if(table == NULL || table->table_buff == NULL) {
       log_printf("%s[%d]:命令解析失败,地址未找到!\r\n",__FILE__,__LINE__);
       return 0;
     }
