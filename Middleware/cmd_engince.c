@@ -5,11 +5,14 @@
 static unsigned char CMD_table_count = 0;
 
 /*
- * @功能：创建一个命令表
+ * @功能：绑定一个命令表
+ * @注意：使用前务必为该命令表创建一个实际的cmd_item类型数组与命令表绑定
  * @参数：命令表缓存的地址
  * @返回：命令表句柄
  */
-cmd_table *CMD_table_creat(conse cmd_item *buff) {
+cmd_table *CMD_table_bind(const cmd_item *buff) {
   static cmd_table CMD_TABLE = {0};
-  CMD_TABLE.
+  CMD_TABLE.cmd_table_sequence = CMD_table_count;
+  CMD_table_count = CMD_table_count + 1;
+  CMD_TABLE.cmd
 };
