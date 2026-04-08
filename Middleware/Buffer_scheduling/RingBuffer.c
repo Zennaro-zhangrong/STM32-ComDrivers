@@ -1,6 +1,6 @@
 /*
  * @file: RingBuffer.c
- * @author:   ZhangRong
+ * @作者：张荣
  * @data: 2026-04-02
  * @brief: 实现环形缓冲区的函数，目的是增加可移植性，非底层文件
  */
