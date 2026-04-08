@@ -6,11 +6,10 @@ extern "C"{
 #endif
 
 #define CMD_TABLES_MAX  8
-#define CMD_MODE 0   //0:接收方解析命令，1：发送方生成命令
 
 
 
-// 命令函数指针：无返回值（你说得对，完全不需要）
+// 命令函数指针
 typedef void (*cmd_func_t)(const unsigned char data_A, unsigned char data_B);
 
 
