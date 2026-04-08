@@ -1,6 +1,5 @@
 /*
  * @功能：解析通行协议命令，每个表最多256条命令，最多创建256个表，中间层文件，适配所有嵌入式系统
- * @完善：发送者使用同样的命令表可以把数据解析出来
  * @作者：张荣
  */
 
@@ -10,7 +9,7 @@
 
 
 static cmd_table cmd_book[CMD_TABLES_MAX] = {0};//用于存放所有表
-static unsigned char cmd_table_count = 0;
+volatile static unsigned char cmd_table_count = 0;
 
 /**
  * @功能：绑定一张const命令表
@@ -66,3 +65,8 @@ unsigned char CMD_engine_RUN(cmd_table *table, unsigned char cmd_code,
     log_printf("此表[%d]未找到命令: 0x%02X\r\n",table->table_sequence, cmd_code);
     return 0;
 }
+
+
+
+
+
