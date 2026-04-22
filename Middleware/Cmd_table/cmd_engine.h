@@ -5,12 +5,16 @@
 extern "C"{
 #endif
 
-#define CMD_TABLES_MAX  8
+/*********************************************************************
+ * @用户配置
+ *********************************************************************/
+#define CMD_TABLES_MAX  8   //命令表的最大数量，一般有几个数据通道便设为几
+
 
 
 
 // 命令函数指针
-typedef void (*cmd_func_t)(const unsigned char data_A, unsigned char data_B);
+typedef void (*cmd_func_t)(const unsigned char *Pbuff, unsigned char Length);
 
 
 
@@ -41,11 +45,9 @@ cmd_table *CMD_Table_Bind(const cmd_item *table_buff, unsigned char item_count);
 
 
 
-
-
 // 查找并执行命令
 unsigned char CMD_engine_RUN(cmd_table *table, unsigned char cmd_code,
-                             const unsigned char data_A, unsigned char data_B);
+                             const unsigned char *Pbuff, unsigned char Length);
 
 
 
