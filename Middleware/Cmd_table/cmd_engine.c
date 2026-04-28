@@ -1,5 +1,5 @@
 /*
- * @功能：解析通行协议命令，每个表最多256条命令，最多创建256个表，中间层文件，适配所有嵌入式系统
+ * @功能：解析通信协议命令，每个表最多256条命令，最多创建256个表，中间层文件，适配所有嵌入式系统
  * @作者：张荣
  */
 
@@ -13,23 +13,21 @@ volatile static unsigned char cmd_table_count = 0;
 
 /**
  * @功能：绑定一张const命令表
- * @参数：命令表的地址
- * @参数：命令表的总命令数量
- * @返回：命令表的句柄地址，命令表满的话返回NULL
+ * @参数：该命令表的地址
+ * @参数：该命令表的总命令数量
+ * @返回：该命令表的句柄地址
  */
 cmd_table *CMD_Table_Bind(const cmd_item *item_buff, unsigned char item_count)
 {
-    if(cmd_table_count >= CMD_TABLES_MAX) {
+    if(cmd_table_count > CMD_TABLES_MAX) {
         log_printf("命令表已满\r\n");
         return NULL;
     }
 
     cmd_table *tab = &cmd_book[cmd_table_count];
-    tab->table_sequence = cmd_table_count;
+    tab->table_sequence = ++cmd_table_count;
     tab->table_buff = item_buff;
     tab->item_count = item_count;
-
-    cmd_table_count++;
     return tab;
 }
 
@@ -37,18 +35,18 @@ cmd_table *CMD_Table_Bind(const cmd_item *item_buff, unsigned char item_count)
 
 
 /**
- * @功能：执行命令对应的处理函数
+ * @功能：在指定的命令表里解析命令并执行命令对应的处理函数
  * @参数：要执行的命令表句柄地址
  * @参数：要解析的指令（0~255）
- * @参数：函数指针的输入参数,必须是数据内容的地址（整帧命令去掉帧头，帧尾，指令代码，长度和校验和）
- * @参数：函数指针的输入参数，代表数据内容的长度
+ * @参数：函数指针的输入参数data_length
+ * @参数：函数指针的输入参数data_Pbuffer
  * @返回：0：执行失败，1：执行成功
  */
 unsigned char CMD_engine_RUN(cmd_table *table, unsigned char cmd_code,
-                      const unsigned char* Pbuff, unsigned char Length)
+                            unsigned char data_length, unsigned char *data_Pbuffer)
 {
     if(table == NULL || table->table_buff == NULL) {
-      log_printf("%s[%d]:命令解析失败,地址未找到!\r\n",__FILE__,__LINE__);
+      log_printf("%s[%d]:命令[0x%02X]解析失败,命令表地址未找到!\r\n",__FILE__,__LINE__,cmd_code);
       return 0;
     }
     // 遍历查表
@@ -57,7 +55,7 @@ unsigned char CMD_engine_RUN(cmd_table *table, unsigned char cmd_code,
 
         if(item->cmd_code == cmd_code) {
             if(item->cmd_func != NULL) {
-                item->cmd_func(Pbuff, Length);
+                item->cmd_func(data_length, data_Pbuffer);
             }
             return 1;
         }
