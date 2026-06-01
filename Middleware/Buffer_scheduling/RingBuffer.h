@@ -8,9 +8,9 @@ extern "C"{
 typedef struct {
     unsigned char *buffer;       // 指向环形缓冲区数据的指针
     unsigned short size;           // 缓冲区的大小
-    unsigned short head;           // 头部索引
-    unsigned short tail;           // 尾部索引
-    unsigned short count;             // 缓冲区存储的总字节数
+    volatile unsigned short head;           // 头部索引
+    volatile unsigned short tail;           // 尾部索引
+    volatile unsigned short count;             // 缓冲区存储的总字节数
 } RingBuffer;
 
 
