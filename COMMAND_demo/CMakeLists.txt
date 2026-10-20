@@ -1,0 +1,26 @@
+cmake_minimum_required(VERSION 3.20)
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+    project(comdrivers_command LANGUAGES C)
+endif()
+
+# 此demo自包含，不调用兄弟目录或仓库公共目录。
+file(GLOB_RECURSE DEMO_SOURCES CONFIGURE_DEPENDS Middleware/*.c Service/*.c)
+list(FILTER DEMO_SOURCES EXCLUDE REGEX "/Lvgl8/")
+add_library(comdrivers_command STATIC ${DEMO_SOURCES})
+target_include_directories(comdrivers_command PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/..")
+target_compile_features(comdrivers_command PUBLIC c_std_11)
+if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
+    target_compile_options(comdrivers_command PRIVATE -Wall -Wextra -Wpedantic)
+    target_link_libraries(comdrivers_command PUBLIC m)
+endif()
+
+# 测试留在本demo内部，不成为固件源码依赖。
+option(COMDRIVERS_BUILD_TESTS "构建当前demo的回归测试" OFF)
+if(COMDRIVERS_BUILD_TESTS)
+    enable_testing()
+    add_executable(comdrivers_command_regression Tests/test_regression.c)
+    target_link_libraries(comdrivers_command_regression PRIVATE comdrivers_command)
+    if(NOT CMAKE_CROSSCOMPILING)
+        add_test(NAME comdrivers_command_regression COMMAND comdrivers_command_regression)
+    endif()
+endif()
